@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.30)
 
-project(raknet)
+project(sampraknet)
+option(RAKNET_DLL "Build as shared library" OFF)
 
 set(RAKNET_SOURCES 
 	src/BitStream.cpp
@@ -31,7 +32,7 @@ set(RAKNET_SOURCES
 	src/StringTable.cpp
 )
 
-if(${RAKNET_DLL})
+if(RAKNET_DLL)
 	add_library(raknet SHARED ${RAKNET_SOURCES})
 	target_compile_definitions(raknet PRIVATE _RAKNET_DLL)
 else()
