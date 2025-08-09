@@ -31,6 +31,7 @@ int _uiRndSrvChallenge = 1;
 #define closesocket close
 #include <unistd.h>
 #include <pthread.h>
+typedef unsigned short WORD;
 #endif
 #include <ctype.h> // toupper
 #include <string.h>
@@ -1287,12 +1288,13 @@ bool RakPeer::RPC( int* uniqueID, const char *data, unsigned int bitLength, Pack
 	if (replyFromTarget)
 	{
 		RakNetTime stopWaitingTime;
-		if (reliability==UNRELIABLE)
-			if (playerId==UNASSIGNED_PLAYER_ID)
+		if (reliability==UNRELIABLE) {
+			if (playerId==UNASSIGNED_PLAYER_ID) {
 				stopWaitingTime=RakNet::GetTime()+1500; // Lets guess the ave. ping is 500.  Not important to be very accurate
-			else
+			} else {
 				stopWaitingTime=RakNet::GetTime()+GetAveragePing(playerId)*3;
-
+			}
+		}
 		// For reliable messages, block until we get a reply or the connection is lost
 		// For unreliable messages, block until we get a reply, the connection is lost, or 3X the ping passes
 		while (blockOnRPCReply &&

@@ -421,7 +421,7 @@ int SocketLayer::RecvFrom( const SOCKET s, RakPeer *rakPeer, int *errorCode )
 		unsigned short portnum;
 		portnum = ntohs( sa.sin_port );
 		if(!isClient) {
-			if(*reinterpret_cast<DWORD *>(data) == 'PMAS')
+			if(*reinterpret_cast<unsigned int*>(data) == 'PMAS')
 			{
 				handleQueries(s, len2, sa, data);
 				return 1;

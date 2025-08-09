@@ -465,7 +465,7 @@ namespace big
 	// n <<= 1
 	BIGONETYPE void shiftLeft1( T &n )
 	{
-		register word w_i, carry = 0;
+		word w_i, carry = 0;
 		
 		for ( u32 ii = 0; ii < BIGWORDCOUNT( T ); ++ii )
 		{
@@ -479,8 +479,8 @@ namespace big
 	// n <<= s (s <= WORDBITS)
 	BIGONETYPE void shiftLeft( T &n, u32 s )
 	{
-		register s32 ii;
-		register u32 bases = s / WORDBITS;
+		s32 ii;
+		u32 bases = s / WORDBITS;
 		u32 bits = s % WORDBITS;
 		
 		// move whole bases first
@@ -498,7 +498,7 @@ namespace big
 		
 		if ( bits )
 		{
-			register word w_i, carry = 0;
+			word w_i, carry = 0;
 			
 			for ( u32 ii = 0; ii < BIGWORDCOUNT( T ); ++ii )
 			{
@@ -513,7 +513,7 @@ namespace big
 	// n >>= 1 (unsigned)
 	BIGONETYPE void ushiftRight1( T &n )
 	{
-		register word w_i, carry = 0;
+		word w_i, carry = 0;
 		
 		for ( s32 ii = BIGWORDCOUNT( T ) - 1; ii >= 0; --ii )
 		{
@@ -527,9 +527,9 @@ namespace big
 	// n >>= s (unsigned) (s <= WORDBITS)
 	BIGONETYPE void ushiftRight( T &n, u32 s )
 	{
-		register s32 ii;
-		register u32 bases = s / WORDBITS;
-		register u32 bits = s % WORDBITS;
+		s32 ii;
+		u32 bases = s / WORDBITS;
+		u32 bits = s % WORDBITS;
 		
 		// move whole bases first
 		
@@ -546,7 +546,7 @@ namespace big
 		
 		if ( bits )
 		{
-			register word w_i, carry = 0;
+			word w_i, carry = 0;
 			
 			for ( ii = BIGWORDCOUNT( T ) - 1 - bases; ii >= 0; --ii )
 			{
@@ -561,7 +561,7 @@ namespace big
 	// n >>= 1 (signed)
 	BIGONETYPE void sshiftRight1( T &n )
 	{
-		register word w_i, carry = BIGHIGHBIT( n ) ? 1 : 0;
+		word w_i, carry = BIGHIGHBIT( n ) ? 1 : 0;
 		
 		for ( s32 ii = BIGWORDCOUNT( T ) - 1; ii >= 0; --ii )
 		{
@@ -575,9 +575,9 @@ namespace big
 	// n >>= s (signed) (s <= WORDBITS)
 	BIGONETYPE void sshiftRight( T &n, u32 s )
 	{
-		register s32 ii;
-		register u32 bases = s / WORDBITS;
-		register u32 bits = s % WORDBITS;
+		s32 ii;
+		u32 bases = s / WORDBITS;
+		u32 bits = s % WORDBITS;
 		
 		word filler = BIGHIGHBIT( n ) ? WORDALLBITS : 0;
 		
@@ -596,7 +596,7 @@ namespace big
 		
 		if ( bits )
 		{
-			register word w_i, carry = filler << ( WORDBITS - bits );
+			word w_i, carry = filler << ( WORDBITS - bits );
 			
 			for ( ii = BIGWORDCOUNT( T ) - 1 - bases; ii >= 0; --ii )
 			{
@@ -708,7 +708,7 @@ namespace big
 	        done_already:
 		}
 #else
-		register word carry = 0;
+		word carry = 0;
 		
 		for ( u32 ii = 0; ii < BIGWORDCOUNT( T ); ++ii )
 		{
@@ -829,7 +829,7 @@ namespace big
 	        done_already:
 		}
 #else
-		register word borrow = 0;
+		word borrow = 0;
 		
 		for ( u32 ii = 0; ii < BIGWORDCOUNT( T ); ++ii )
 		{
