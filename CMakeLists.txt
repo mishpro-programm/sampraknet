@@ -13,6 +13,7 @@ set(RAKNET_SOURCES
 	src/NetworkTypes.cpp
 	src/PluginInterface.cpp
 	src/RakClient.cpp
+	src/RakNetworkFactory.cpp
 	src/RakPeer.cpp
 	src/RakServer.cpp
 	src/RakSleep.cpp
