@@ -1,4 +1,6 @@
-char AuthKeyTable[512][2][128] =
+#include "Export.h"
+
+RAK_DLL_EXPORT char AuthKeyTable[512][2][128] =
 {
 	// 0.3.7 R1
 	{"6C407EC29DE59E2", "D9412F235647BAA582089C6F66817F8B8811C057"},

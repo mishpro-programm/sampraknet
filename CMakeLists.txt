@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.30)
 
 project(raknet)
 
-add_library(raknet STATIC
+set(RAKNET_SOURCES 
 	src/BitStream.cpp
 	src/CheckSum.cpp
 	src/DataBlockEncryptor.cpp
@@ -29,6 +29,13 @@ add_library(raknet STATIC
 	src/StringCompressor.cpp
 	src/StringTable.cpp
 )
+
+if(${RAKNET_DLL})
+	add_library(raknet SHARED ${RAKNET_SOURCES})
+	target_compile_definitions(raknet PRIVATE _RAKNET_DLL)
+else()
+	add_library(raknet STATIC ${RAKNET_SOURCES})
+endif()
 
 if(WIN32)
 	target_compile_definitions(raknet PRIVATE _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS)

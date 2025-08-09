@@ -1,2 +1,3 @@
 Add ability to register or somehow else handle SAMP queries (SocketLayer.cpp)
 Generate _uiRndSrvChallenge at server startup (RakServer.cpp + RakPeer.cpp)
+Export some SAMP function in DLL (samp_auth.cpp, samp_netencr.cpp, SAMPRPC.cpp)
