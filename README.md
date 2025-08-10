@@ -10,7 +10,7 @@ FetchContent_Declare(sampraknet
   GIT_REPOSITORY https://github.com/mishpro-programm/sampraknet
   GIT_TAG v1.0
 )
-# here goes your options
+# here go your options
 FetchContent_MakeAvailable(sampraknet)
 
 target_link_libraries(your_target PRIVATE raknet)
