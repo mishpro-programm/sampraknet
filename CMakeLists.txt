@@ -1,7 +1,9 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.28)
 
 project(sampraknet)
+
 option(RAKNET_DLL "Build as shared library" OFF)
+option(RAKNET_THREADSAFE "Build threadsafe variant of RakNet" OFF)
 
 set(RAKNET_SOURCES 
 	src/BitStream.cpp
@@ -37,6 +39,10 @@ if(RAKNET_DLL)
 	target_compile_definitions(raknet PRIVATE _RAKNET_DLL)
 else()
 	add_library(raknet STATIC ${RAKNET_SOURCES})
+endif()
+
+if(RAKNET_THREADSAFE)
+	target_compile_definitions(raknet PRIVATE _RAKNET_THREADSAFE)
 endif()
 
 if(WIN32)

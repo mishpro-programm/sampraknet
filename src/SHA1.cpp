@@ -221,13 +221,13 @@ bool CSHA1::HashFile( char *szFileName )
 
 	for ( i = 0; i < ulBlocks; i++ )
 	{
-		fread( uData, 1, MAX_FILE_READ_BUFFER, fIn );
+		int unused = fread( uData, 1, MAX_FILE_READ_BUFFER, fIn );
 		Update( uData, MAX_FILE_READ_BUFFER );
 	}
 
 	if ( ulRest != 0 )
 	{
-		fread( uData, 1, ulRest, fIn );
+		int unused = fread( uData, 1, ulRest, fIn );
 		Update( uData, ulRest );
 	}
 
@@ -281,7 +281,7 @@ void CSHA1::Final()
 void CSHA1::ReportHash( char *szReport, unsigned char uReportType )
 {
 	unsigned char i = 0;
-	char szTemp[ 4 ];
+	char szTemp[ 5 ];
 
 	if ( uReportType == REPORT_HEX )
 	{
@@ -303,7 +303,7 @@ void CSHA1::ReportHash( char *szReport, unsigned char uReportType )
 
 			for ( i = 1; i < 20; i++ )
 			{
-				sprintf( szTemp, " %u", m_digest[ i ] );
+				snprintf( szTemp, sizeof(szTemp), " %u", m_digest[ i ] );
 				strcat( szReport, szTemp );
 			}
 		}
