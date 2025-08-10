@@ -38,6 +38,7 @@ class RouterInterface;
 class RAK_DLL_EXPORT RakPeerInterface
 {
 public:
+
 	///Destructor
 	virtual ~RakPeerInterface()	{}
 
@@ -466,6 +467,7 @@ public:
 	/// \internal
 	virtual RPCMap *GetRPCMap( const PlayerID playerId)=0;
 
+	virtual SAMPQuery* ReceiveSAMPQuery()=0;
 
 };
 

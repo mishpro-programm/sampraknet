@@ -22,8 +22,6 @@
 #include "AsynchronousFileIO.h"
 #endif
 
-int _uiRndSrvChallenge = 1;
-
 #ifdef _WIN32
 //#include <Shlwapi.h>
 #include <process.h>
@@ -2381,6 +2379,39 @@ RPCMap* RakPeer::GetRPCMap( const PlayerID playerId)
 	}
 }
 
+void RakPeer::HandleSAMPQuery(char *buffer, int len, sockaddr_in address, SOCKET socket) {
+	if (IsClient() || len < 11) return;
+	unsigned int binaryAddress = (*reinterpret_cast<unsigned char*>(&buffer[4]) << 24) |
+									(*reinterpret_cast<unsigned char*>(&buffer[5]) << 16) |
+									(*reinterpret_cast<unsigned char*>(&buffer[6]) << 8) |
+									*reinterpret_cast<unsigned char*>(&buffer[7]);
+	unsigned short port =	*reinterpret_cast<unsigned char *>(&buffer[8]) |
+							(*reinterpret_cast<unsigned char *>(&buffer[9]) << 8);
+	unsigned char queryType = buffer[10];
+	int dataLen = len - 11;
+	char* data = (char*)"";
+	if (dataLen>0) {
+		data = new char[dataLen];
+		memcpy(data, buffer + 11, dataLen);
+	}
+	auto *query = new SAMPQuery;
+	query->type = static_cast<SAMPQueryType>(queryType);
+	query->data = data;
+	query->dataLength = dataLen;
+	query->targetAddress = binaryAddress;
+	query->targetPort = port;
+	query->senderAddress = address;
+	query->socket = socket;
+	query->receiver = this;
+	queryQueue.Push(query);
+}
+
+SAMPQuery *RakPeer::ReceiveSAMPQuery() {
+	if (queryQueue.IsEmpty()) return nullptr;
+	return queryQueue.Pop();
+}
+
+
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RakNetStatisticsStruct * const RakPeer::GetStatistics( const PlayerID playerId )
 {
@@ -2639,7 +2670,7 @@ void RakPeer::OnConnectionRequest( RakPeer::RemoteSystemStruct *remoteSystem, un
 		bitStream.Write(remoteSystem->playerId.port);
 		bitStream.Write(( PlayerIndex ) GetIndexFromPlayerID( remoteSystem->playerId, true ));
 		if(!IsClient()){
-			bitStream.Write(_uiRndSrvChallenge); // RAKSAMP SERVER HACK PONPON
+			bitStream.Write(randomServerChallenge); // RAKSAMP SERVER HACK PONPON
 		}
 
 		SendImmediate((char*)bitStream.GetData(), bitStream.GetNumberOfBitsUsed(), SYSTEM_PRIORITY, RELIABLE, 0, remoteSystem->playerId, false, false, RakNet::GetTime());

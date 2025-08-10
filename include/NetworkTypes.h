@@ -21,11 +21,20 @@
 #include "RakNetDefines.h"
 #include "Export.h"
 
+#ifdef _WIN32
+#include <winsock2.h>
+#else
+#include <netinet/in.h>
+typedef int SOCKET;
+#endif
+
 /// Forward declaration
 namespace RakNet
 {
 	class BitStream;
 };
+
+class RakPeer;
 
 /// Given a number of bits, return how many bytes are needed to represent that.
 #define BITS_TO_BYTES(x) (((x)+7)>>3)
@@ -156,6 +165,28 @@ struct RPCParameters
 	/// If you do so and your send is reliable, it will block until you get a reply or you get disconnected from the system you are sending to, whichever is first.
 	/// If your send is not reliable, it will block for triple the ping time, or until you are disconnected, or you get a reply, whichever is first.
 	RakNet::BitStream *replyToSender;
+};
+
+enum SAMPQueryType : unsigned char {
+	ClientList = 0x63,
+	PlayerInfo = 0x64,
+	ServerInfo = 0x69,
+	Ping = 0x70,
+	RulesList = 0x72,
+	RCONCmd = 0x78,
+};
+
+struct SAMPQuery {
+	SAMPQueryType type;
+	char* data;
+	int dataLength;
+	unsigned int targetAddress;
+	unsigned short targetPort;
+	sockaddr_in senderAddress;
+	SOCKET socket;
+	RakPeer* receiver;
+	~SAMPQuery();
+	void SendResponse(char* data, int len);
 };
 
 ///  Index of an unassigned player

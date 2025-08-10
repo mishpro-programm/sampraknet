@@ -60,6 +60,7 @@ bool RakServer::Start( unsigned short AllowedPlayers, unsigned int depreciated, 
 	RakNetTime time = RakNet::GetTime();
 	seedMT( (unsigned int) time );
 	seed = randomMT();
+	randomServerChallenge = randomMT();
 
 	if ( seed % 2 == 0 )   // Even
 		seed--; // make odd
@@ -583,6 +584,11 @@ bool RakServer::IsNetworkSimulatorActive( void )
 {
 	return RakPeer::IsNetworkSimulatorActive();
 }
+
+SAMPQuery* RakServer::ReceiveSAMPQuery() {
+	return RakPeer::ReceiveSAMPQuery();
+}
+
 
 #ifdef _MSC_VER
 #pragma warning( pop )

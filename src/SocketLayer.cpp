@@ -46,8 +46,6 @@ typedef int socklen_t;
 #include "AsynchronousFileIO.h"
 #endif
 
-void handleQueries(SOCKET, int, sockaddr_in, char*){}
-
 #ifdef _MSC_VER
 #pragma warning( push )
 #endif
@@ -421,9 +419,9 @@ int SocketLayer::RecvFrom( const SOCKET s, RakPeer *rakPeer, int *errorCode )
 		unsigned short portnum;
 		portnum = ntohs( sa.sin_port );
 		if(!isClient) {
-			if(strncmp(data, "SAMP", 4) == 0)
+			if(memcmp(data, "SAMP", 4) == 0)
 			{
-				handleQueries(s, len2, sa, data);
+				rakPeer->HandleSAMPQuery(data, len, sa, s);
 				return 1;
 			}
 

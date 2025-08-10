@@ -15,6 +15,7 @@
 /// option) any later version.
 
 #include "NetworkTypes.h"
+#include "SocketLayer.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -178,4 +179,21 @@ bool NetworkID::IsPeerToPeerMode(void)
 void NetworkID::SetPeerToPeerMode(bool isPeerToPeer)
 {
 	peerToPeerMode=isPeerToPeer;
+}
+
+SAMPQuery::~SAMPQuery() {
+	delete[] data;
+}
+
+void SAMPQuery::SendResponse(char *data, int len) {
+	char* buffer = new char[11+len];
+	memcpy(buffer, "SAMP", 4);
+	unsigned int addr = htonl(targetAddress);
+	unsigned short port = htons(targetPort);
+	memcpy(buffer + 4, &addr, sizeof(addr));
+	memcpy(buffer + 8, &port, sizeof(port));
+	memcpy(buffer + 10, &type, sizeof(type));
+	memcpy(buffer + 11, data, len);
+	sendto(socket, buffer, 11 + len, 0, (sockaddr*)&senderAddress, sizeof(senderAddress));
+	delete[] buffer;
 }

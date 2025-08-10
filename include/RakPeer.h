@@ -477,6 +477,10 @@ public:
 	/// \internal
 	RPCMap *GetRPCMap( const PlayerID playerId);
 
+	void HandleSAMPQuery(char* buffer, int len, sockaddr_in address, SOCKET socket);
+
+	SAMPQuery* ReceiveSAMPQuery();
+
 	/// \internal
 	/// \brief Holds the clock differences between systems, along with the ping
 	struct PingAndClockDifferential
@@ -777,6 +781,8 @@ protected:
 	DataStructures::SingleProducerConsumer<Packet*> packetSingleProducerConsumer;
 	//DataStructures::Queue<Packet*> pushedBackPacket, outOfOrderDeallocatedPacket;
 	DataStructures::Queue<Packet*> packetPool;
+	unsigned int randomServerChallenge;
+	DataStructures::Queue<SAMPQuery*> queryQueue;
 };
 
 #endif

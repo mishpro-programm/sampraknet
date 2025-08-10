@@ -437,6 +437,8 @@ public:
 	/// Returns if you previously called ApplyNetworkSimulator
 	/// \return If you previously called ApplyNetworkSimulator
 	virtual bool IsNetworkSimulatorActive( void )=0;
+
+	virtual SAMPQuery* ReceiveSAMPQuery()=0;
 };
 
 #endif

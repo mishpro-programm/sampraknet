@@ -442,6 +442,8 @@ public:
 	/// \return If you previously called ApplyNetworkSimulator
 	virtual bool IsNetworkSimulatorActive( void );
 
+	virtual SAMPQuery* ReceiveSAMPQuery();
+
 private:
 	unsigned int seed, nextSeed;
 	RakNetTime broadcastPingsTime, nextSeedUpdate;
