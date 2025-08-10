@@ -1,2 +1,1 @@
-Add ability to register or somehow else handle SAMP queries (SocketLayer.cpp)
-Generate _uiRndSrvChallenge at server startup (RakServer.cpp + RakPeer.cpp)
+Nothing to do
