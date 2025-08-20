@@ -24,8 +24,8 @@ set(RAKNET_SOURCES
 	src/ReliabilityLayer.cpp
 	src/rijndael.cpp
 	src/RPCMap.cpp
-	src/samp_auth.cpp
-	src/samp_netencr.cpp
+	src/SAMPAuth.cpp
+	src/SAMPNetEncr.cpp
 	src/SAMPRPC.cpp
 	src/SHA1.cpp
 	src/SimpleMutex.cpp

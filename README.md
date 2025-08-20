@@ -8,9 +8,9 @@ If you want to include this library to your CMake project you can do it this way
 include(FetchContent)
 FetchContent_Declare(sampraknet
   GIT_REPOSITORY https://github.com/mishpro-programm/sampraknet
-  GIT_TAG v1.0
+  GIT_TAG v1.1
 )
-# here go your options
+# here your options go
 FetchContent_MakeAvailable(sampraknet)
 
 target_link_libraries(your_target PRIVATE raknet)
@@ -25,6 +25,14 @@ RAKNET_THREADSAFE (ON/OFF) - Build threadsafe variant of RakNet (Default: OFF)
 # Added stuff
 ```c++
 SAMPQuery* RakServerInterface::ReceiveSAMPQuery();
+SAMPAuth::KeyPair SAMPAuth::GetKeyPair(unsigned int index = 0xFFFFFFFF); // get auth key pair. if index is 0xFFFFFFFF or bigger than 511 then random key pair is selected
+const char* GetClientKey(const char* serverKey); // nullptr if not found
+const char* GetServerKey(const char* clientKey); // nullptr if not found
+
+struct SAMPAuth::KeyPair {
+    const char* serverKey;
+    const char* clientKey;
+};
 
 enum SAMPQueryType : unsigned char {
 	ClientList = 0x63,

@@ -25,7 +25,7 @@
 #include <assert.h>
 #include "MTUSize.h"
 
-#include "samp_netencr.h"
+#include "SAMPNetEncr.h"
 #include "RakPeer.h"
 
 #ifdef _WIN32

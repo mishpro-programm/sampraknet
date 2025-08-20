@@ -1,4 +1,9 @@
+#include "SAMPAuth.h"
+
+#include <cstring>
+
 #include "Export.h"
+#include "Rand.h"
 
 RAK_DLL_EXPORT char AuthKeyTable[512][2][128] =
 {
@@ -517,3 +522,31 @@ RAK_DLL_EXPORT char AuthKeyTable[512][2][128] =
 	{"265C781252B74EBE", "757F713CDEE0B8BA3071165B936C583B541DD594"},
 	{"15F838D177F569DC", "38ADAAD5DF8775AEEF22B865506D1341C2A1DA57"}
 };
+
+SAMPAuth::KeyPair SAMPAuth::GetAuthKeyPair(unsigned int index) {
+	if (index == 0xFFFFFFFF || index > 511) {
+		index = randomMT() % 512;
+	}
+	return {
+		.serverKey = AuthKeyTable[index][0],
+		.clientKey = AuthKeyTable[index][1]
+	};
+}
+
+const char *SAMPAuth::GetClientKey(const char *serverKey) {
+	for (int i = 0; i < 512; i++) {
+		if (!strcmp(serverKey, AuthKeyTable[i][0])) {
+			return AuthKeyTable[i][1];
+		}
+	}
+	return nullptr;
+}
+
+const char *SAMPAuth::GetServerKey(const char *clientKey) {
+	for (int i = 0; i < 512; i++) {
+		if (!strcmp(clientKey, AuthKeyTable[i][1])) {
+			return AuthKeyTable[i][1];
+		}
+	}
+	return nullptr;
+}
