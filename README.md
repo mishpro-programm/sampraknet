@@ -26,8 +26,8 @@ RAKNET_THREADSAFE (ON/OFF) - Build threadsafe variant of RakNet (Default: OFF)
 ```c++
 SAMPQuery* RakServerInterface::ReceiveSAMPQuery();
 SAMPAuth::KeyPair SAMPAuth::GetKeyPair(unsigned int index = 0xFFFFFFFF); // get auth key pair. if index is 0xFFFFFFFF or bigger than 511 then random key pair is selected
-const char* GetClientKey(const char* serverKey); // nullptr if not found
-const char* GetServerKey(const char* clientKey); // nullptr if not found
+const char* SAMPAuth::GetClientKey(const char* serverKey); // nullptr if not found
+const char* SAMPAuth::GetServerKey(const char* clientKey); // nullptr if not found
 
 struct SAMPAuth::KeyPair {
     const char* serverKey;
